@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
           const deleteBtns = activityCard.querySelectorAll('.delete-participant-btn');
           deleteBtns.forEach(btn => {
-            btn.addEventListener('click', async (e) => {
+            btn.addEventListener('click', async () => {
               const activity = btn.getAttribute('data-activity');
               const email = btn.getAttribute('data-email');
               if (confirm(`Unregister ${email} from ${activity}?`)) {
