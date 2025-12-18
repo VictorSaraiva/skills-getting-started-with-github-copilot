@@ -1,5 +1,3 @@
-from fastapi import Request
-from fastapi import status
 """
 High School Management System API
 
