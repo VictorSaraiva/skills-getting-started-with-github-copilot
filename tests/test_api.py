@@ -115,6 +115,33 @@ class TestSignupForActivity:
         assert data["detail"] == "Student already signed up for this activity"
 
 
+class TestGetUserActivities:
+    """Tests for GET /users/{email}/activities endpoint"""
+
+    def test_get_activities_for_registered_user(self, client):
+        """Test retrieving activities for a student who is registered"""
+        response = client.get("/users/michael@mergington.edu/activities")
+        assert response.status_code == 200
+        data = response.json()
+        assert "Chess Club" in data
+        assert "michael@mergington.edu" in data["Chess Club"]["participants"]
+
+    def test_get_activities_for_unregistered_user(self, client):
+        """Test retrieving activities for a student with no registrations"""
+        response = client.get("/users/nobody@mergington.edu/activities")
+        assert response.status_code == 200
+        data = response.json()
+        assert data == {}
+
+    def test_get_activities_does_not_include_other_activities(self, client):
+        """Test that only activities the student is in are returned"""
+        response = client.get("/users/alex@mergington.edu/activities")
+        assert response.status_code == 200
+        data = response.json()
+        assert "Basketball Team" in data
+        assert "Chess Club" not in data
+
+
 class TestUnregisterFromActivity:
     """Tests for DELETE /activities/{activity_name}/unregister endpoint"""
     
