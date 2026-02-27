@@ -88,6 +88,17 @@ def get_activities():
     return activities
 
 
+@app.get("/users/{email}/activities")
+def get_user_activities(email: str):
+    """Get all activities a student is signed up for"""
+    user_activities = {
+        name: details
+        for name, details in activities.items()
+        if email in details["participants"]
+    }
+    return user_activities
+
+
 @app.post("/activities/{activity_name}/signup")
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
